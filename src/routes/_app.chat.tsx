@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, useNavigate, useParams, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { MessageSquare, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,16 @@ function ChatLayout() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const refresh = () => setThreads(loadThreads());
+  // re-read threads when storage changes (e.g. from child route after sending a message)
+  useEffect(() => {
+    const onChange = () => setThreads(loadThreads());
+    window.addEventListener("workspace-threads-changed", onChange);
+    window.addEventListener("storage", onChange);
+    return () => {
+      window.removeEventListener("workspace-threads-changed", onChange);
+      window.removeEventListener("storage", onChange);
+    };
+  }, []);
 
   const newChat = () => {
     const t = createThread();
@@ -109,11 +118,8 @@ function ChatLayout() {
         </aside>
 
         {/* Active chat */}
-        <Outlet context={{ refresh }} />
+        <Outlet />
       </div>
     </div>
   );
 }
-
-// re-exports for child route
-export { useParams };
