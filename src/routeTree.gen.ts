@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
 import { Route as AppTasksRouteImport } from './routes/_app.tasks'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppResearchRouteImport } from './routes/_app.research'
 import { Route as AppPromptsRouteImport } from './routes/_app.prompts'
 import { Route as AppMeetingsRouteImport } from './routes/_app.meetings'
@@ -33,6 +34,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
 const AppTasksRoute = AppTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
 const AppResearchRoute = AppResearchRouteImport.update({
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/meetings': typeof AppMeetingsRoute
   '/prompts': typeof AppPromptsRoute
   '/research': typeof AppResearchRoute
+  '/settings': typeof AppSettingsRoute
   '/tasks': typeof AppTasksRoute
   '/chat/$threadId': typeof AppChatThreadIdRoute
 }
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/meetings': typeof AppMeetingsRoute
   '/prompts': typeof AppPromptsRoute
   '/research': typeof AppResearchRoute
+  '/settings': typeof AppSettingsRoute
   '/tasks': typeof AppTasksRoute
   '/': typeof AppIndexRoute
   '/chat/$threadId': typeof AppChatThreadIdRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/_app/meetings': typeof AppMeetingsRoute
   '/_app/prompts': typeof AppPromptsRoute
   '/_app/research': typeof AppResearchRoute
+  '/_app/settings': typeof AppSettingsRoute
   '/_app/tasks': typeof AppTasksRoute
   '/_app/': typeof AppIndexRoute
   '/_app/chat/$threadId': typeof AppChatThreadIdRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/meetings'
     | '/prompts'
     | '/research'
+    | '/settings'
     | '/tasks'
     | '/chat/$threadId'
   fileRoutesByTo: FileRoutesByTo
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/meetings'
     | '/prompts'
     | '/research'
+    | '/settings'
     | '/tasks'
     | '/'
     | '/chat/$threadId'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/_app/meetings'
     | '/_app/prompts'
     | '/_app/research'
+    | '/_app/settings'
     | '/_app/tasks'
     | '/_app/'
     | '/_app/chat/$threadId'
@@ -179,6 +191,13 @@ declare module '@tanstack/react-router' {
       path: '/tasks'
       fullPath: '/tasks'
       preLoaderRoute: typeof AppTasksRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/research': {
@@ -259,6 +278,7 @@ interface AppRouteChildren {
   AppMeetingsRoute: typeof AppMeetingsRoute
   AppPromptsRoute: typeof AppPromptsRoute
   AppResearchRoute: typeof AppResearchRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppTasksRoute: typeof AppTasksRoute
   AppIndexRoute: typeof AppIndexRoute
 }
@@ -271,6 +291,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppMeetingsRoute: AppMeetingsRoute,
   AppPromptsRoute: AppPromptsRoute,
   AppResearchRoute: AppResearchRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppTasksRoute: AppTasksRoute,
   AppIndexRoute: AppIndexRoute,
 }
