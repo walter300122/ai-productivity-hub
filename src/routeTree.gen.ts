@@ -9,61 +9,298 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as AppIndexRouteImport } from './routes/_app.index'
+import { Route as AppTasksRouteImport } from './routes/_app.tasks'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppResearchRouteImport } from './routes/_app.research'
+import { Route as AppPromptsRouteImport } from './routes/_app.prompts'
+import { Route as AppMeetingsRouteImport } from './routes/_app.meetings'
+import { Route as AppHistoryRouteImport } from './routes/_app.history'
+import { Route as AppEmailRouteImport } from './routes/_app.email'
+import { Route as AppDocumentsRouteImport } from './routes/_app.documents'
+import { Route as AppChatRouteImport } from './routes/_app.chat'
+import { Route as AppChatThreadIdRouteImport } from './routes/_app.chat.$threadId'
 
-const IndexRoute = IndexRouteImport.update({
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTasksRoute = AppTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppResearchRoute = AppResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPromptsRoute = AppPromptsRouteImport.update({
+  id: '/prompts',
+  path: '/prompts',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMeetingsRoute = AppMeetingsRouteImport.update({
+  id: '/meetings',
+  path: '/meetings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHistoryRoute = AppHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEmailRoute = AppEmailRouteImport.update({
+  id: '/email',
+  path: '/email',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDocumentsRoute = AppDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChatRoute = AppChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChatThreadIdRoute = AppChatThreadIdRouteImport.update({
+  id: '/$threadId',
+  path: '/$threadId',
+  getParentRoute: () => AppChatRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof AppIndexRoute
+  '/chat': typeof AppChatRouteWithChildren
+  '/documents': typeof AppDocumentsRoute
+  '/email': typeof AppEmailRoute
+  '/history': typeof AppHistoryRoute
+  '/meetings': typeof AppMeetingsRoute
+  '/prompts': typeof AppPromptsRoute
+  '/research': typeof AppResearchRoute
+  '/settings': typeof AppSettingsRoute
+  '/tasks': typeof AppTasksRoute
+  '/chat/$threadId': typeof AppChatThreadIdRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/chat': typeof AppChatRouteWithChildren
+  '/documents': typeof AppDocumentsRoute
+  '/email': typeof AppEmailRoute
+  '/history': typeof AppHistoryRoute
+  '/meetings': typeof AppMeetingsRoute
+  '/prompts': typeof AppPromptsRoute
+  '/research': typeof AppResearchRoute
+  '/settings': typeof AppSettingsRoute
+  '/tasks': typeof AppTasksRoute
+  '/': typeof AppIndexRoute
+  '/chat/$threadId': typeof AppChatThreadIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/chat': typeof AppChatRouteWithChildren
+  '/_app/documents': typeof AppDocumentsRoute
+  '/_app/email': typeof AppEmailRoute
+  '/_app/history': typeof AppHistoryRoute
+  '/_app/meetings': typeof AppMeetingsRoute
+  '/_app/prompts': typeof AppPromptsRoute
+  '/_app/research': typeof AppResearchRoute
+  '/_app/settings': typeof AppSettingsRoute
+  '/_app/tasks': typeof AppTasksRoute
+  '/_app/': typeof AppIndexRoute
+  '/_app/chat/$threadId': typeof AppChatThreadIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/chat'
+    | '/documents'
+    | '/email'
+    | '/history'
+    | '/meetings'
+    | '/prompts'
+    | '/research'
+    | '/settings'
+    | '/tasks'
+    | '/chat/$threadId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/chat'
+    | '/documents'
+    | '/email'
+    | '/history'
+    | '/meetings'
+    | '/prompts'
+    | '/research'
+    | '/settings'
+    | '/tasks'
+    | '/'
+    | '/chat/$threadId'
+  id:
+    | '__root__'
+    | '/_app'
+    | '/_app/chat'
+    | '/_app/documents'
+    | '/_app/email'
+    | '/_app/history'
+    | '/_app/meetings'
+    | '/_app/prompts'
+    | '/_app/research'
+    | '/_app/settings'
+    | '/_app/tasks'
+    | '/_app/'
+    | '/_app/chat/$threadId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/': {
+      id: '/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/tasks': {
+      id: '/_app/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AppTasksRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/research': {
+      id: '/_app/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof AppResearchRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/prompts': {
+      id: '/_app/prompts'
+      path: '/prompts'
+      fullPath: '/prompts'
+      preLoaderRoute: typeof AppPromptsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/meetings': {
+      id: '/_app/meetings'
+      path: '/meetings'
+      fullPath: '/meetings'
+      preLoaderRoute: typeof AppMeetingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/history': {
+      id: '/_app/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof AppHistoryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/email': {
+      id: '/_app/email'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof AppEmailRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/documents': {
+      id: '/_app/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof AppDocumentsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/chat': {
+      id: '/_app/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AppChatRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/chat/$threadId': {
+      id: '/_app/chat/$threadId'
+      path: '/$threadId'
+      fullPath: '/chat/$threadId'
+      preLoaderRoute: typeof AppChatThreadIdRouteImport
+      parentRoute: typeof AppChatRoute
     }
   }
 }
 
+interface AppChatRouteChildren {
+  AppChatThreadIdRoute: typeof AppChatThreadIdRoute
+}
+
+const AppChatRouteChildren: AppChatRouteChildren = {
+  AppChatThreadIdRoute: AppChatThreadIdRoute,
+}
+
+const AppChatRouteWithChildren =
+  AppChatRoute._addFileChildren(AppChatRouteChildren)
+
+interface AppRouteChildren {
+  AppChatRoute: typeof AppChatRouteWithChildren
+  AppDocumentsRoute: typeof AppDocumentsRoute
+  AppEmailRoute: typeof AppEmailRoute
+  AppHistoryRoute: typeof AppHistoryRoute
+  AppMeetingsRoute: typeof AppMeetingsRoute
+  AppPromptsRoute: typeof AppPromptsRoute
+  AppResearchRoute: typeof AppResearchRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppTasksRoute: typeof AppTasksRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppChatRoute: AppChatRouteWithChildren,
+  AppDocumentsRoute: AppDocumentsRoute,
+  AppEmailRoute: AppEmailRoute,
+  AppHistoryRoute: AppHistoryRoute,
+  AppMeetingsRoute: AppMeetingsRoute,
+  AppPromptsRoute: AppPromptsRoute,
+  AppResearchRoute: AppResearchRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppTasksRoute: AppTasksRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
