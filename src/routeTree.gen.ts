@@ -16,6 +16,7 @@ import { Route as AppResearchRouteImport } from './routes/_app.research'
 import { Route as AppMeetingsRouteImport } from './routes/_app.meetings'
 import { Route as AppEmailRouteImport } from './routes/_app.email'
 import { Route as AppChatRouteImport } from './routes/_app.chat'
+import { Route as AppChatThreadIdRouteImport } from './routes/_app.chat.$threadId'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -51,38 +52,60 @@ const AppChatRoute = AppChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => AppRoute,
 } as any)
+const AppChatThreadIdRoute = AppChatThreadIdRouteImport.update({
+  id: '/$threadId',
+  path: '/$threadId',
+  getParentRoute: () => AppChatRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
-  '/chat': typeof AppChatRoute
+  '/chat': typeof AppChatRouteWithChildren
   '/email': typeof AppEmailRoute
   '/meetings': typeof AppMeetingsRoute
   '/research': typeof AppResearchRoute
   '/tasks': typeof AppTasksRoute
+  '/chat/$threadId': typeof AppChatThreadIdRoute
 }
 export interface FileRoutesByTo {
-  '/chat': typeof AppChatRoute
+  '/chat': typeof AppChatRouteWithChildren
   '/email': typeof AppEmailRoute
   '/meetings': typeof AppMeetingsRoute
   '/research': typeof AppResearchRoute
   '/tasks': typeof AppTasksRoute
   '/': typeof AppIndexRoute
+  '/chat/$threadId': typeof AppChatThreadIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
-  '/_app/chat': typeof AppChatRoute
+  '/_app/chat': typeof AppChatRouteWithChildren
   '/_app/email': typeof AppEmailRoute
   '/_app/meetings': typeof AppMeetingsRoute
   '/_app/research': typeof AppResearchRoute
   '/_app/tasks': typeof AppTasksRoute
   '/_app/': typeof AppIndexRoute
+  '/_app/chat/$threadId': typeof AppChatThreadIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chat' | '/email' | '/meetings' | '/research' | '/tasks'
+  fullPaths:
+    | '/'
+    | '/chat'
+    | '/email'
+    | '/meetings'
+    | '/research'
+    | '/tasks'
+    | '/chat/$threadId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/chat' | '/email' | '/meetings' | '/research' | '/tasks' | '/'
+  to:
+    | '/chat'
+    | '/email'
+    | '/meetings'
+    | '/research'
+    | '/tasks'
+    | '/'
+    | '/chat/$threadId'
   id:
     | '__root__'
     | '/_app'
@@ -92,6 +115,7 @@ export interface FileRouteTypes {
     | '/_app/research'
     | '/_app/tasks'
     | '/_app/'
+    | '/_app/chat/$threadId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -149,11 +173,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChatRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/chat/$threadId': {
+      id: '/_app/chat/$threadId'
+      path: '/$threadId'
+      fullPath: '/chat/$threadId'
+      preLoaderRoute: typeof AppChatThreadIdRouteImport
+      parentRoute: typeof AppChatRoute
+    }
   }
 }
 
+interface AppChatRouteChildren {
+  AppChatThreadIdRoute: typeof AppChatThreadIdRoute
+}
+
+const AppChatRouteChildren: AppChatRouteChildren = {
+  AppChatThreadIdRoute: AppChatThreadIdRoute,
+}
+
+const AppChatRouteWithChildren =
+  AppChatRoute._addFileChildren(AppChatRouteChildren)
+
 interface AppRouteChildren {
-  AppChatRoute: typeof AppChatRoute
+  AppChatRoute: typeof AppChatRouteWithChildren
   AppEmailRoute: typeof AppEmailRoute
   AppMeetingsRoute: typeof AppMeetingsRoute
   AppResearchRoute: typeof AppResearchRoute
@@ -162,7 +204,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppChatRoute: AppChatRoute,
+  AppChatRoute: AppChatRouteWithChildren,
   AppEmailRoute: AppEmailRoute,
   AppMeetingsRoute: AppMeetingsRoute,
   AppResearchRoute: AppResearchRoute,
