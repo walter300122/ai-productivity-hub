@@ -105,7 +105,7 @@ function Dashboard() {
                   className="grid h-9 w-9 place-items-center rounded-lg"
                   style={{ backgroundColor: `color-mix(in oklab, ${s.color} 15%, transparent)`, color: s.color }}
                 >
-                  <s.icon className="h-4.5 w-4.5" />
+                  <s.icon className="h-[18px] w-[18px]" />
                 </div>
                 <span className="text-xs font-medium text-muted-foreground">{s.delta}</span>
               </div>

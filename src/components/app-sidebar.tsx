@@ -54,7 +54,7 @@ export function AppSidebar() {
             className="grid h-9 w-9 shrink-0 place-items-center rounded-lg"
             style={{ background: "var(--gradient-primary)" }}
           >
-            <Sparkles className="h-4.5 w-4.5 text-white" strokeWidth={2.5} />
+            <Sparkles className="h-[18px] w-[18px] text-white" strokeWidth={2.5} />
           </div>
           <div className="flex min-w-0 flex-col group-data-[collapsible=icon]:hidden">
             <span className="truncate text-sm font-bold tracking-tight">Workspace AI</span>

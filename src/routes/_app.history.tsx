@@ -32,7 +32,7 @@ function HistoryPage() {
           {items.map((it, i) => (
             <div key={i} className="flex items-start gap-3 p-4 transition hover:bg-muted/30">
               <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent/40 text-primary">
-                <it.icon className="h-4.5 w-4.5" />
+                <it.icon className="h-[18px] w-[18px]" />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">

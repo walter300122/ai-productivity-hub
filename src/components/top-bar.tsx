@@ -35,14 +35,14 @@ export function TopBar() {
       </div>
       <div className="ml-auto flex items-center gap-1.5">
         <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
-          {dark ? <Sun className="h-4.5 w-4.5" /> : <Moon className="h-4.5 w-4.5" />}
+          {dark ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
         </Button>
         <Button variant="ghost" size="icon" aria-label="Notifications" className="relative">
-          <Bell className="h-4.5 w-4.5" />
+          <Bell className="h-[18px] w-[18px]" />
           <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-primary" />
         </Button>
         <Button asChild variant="ghost" size="icon" aria-label="Settings">
-          <Link to="/settings"><SettingsIcon className="h-4.5 w-4.5" /></Link>
+          <Link to="/settings"><SettingsIcon className="h-[18px] w-[18px]" /></Link>
         </Button>
         <Avatar className="ml-1 h-9 w-9 ring-2 ring-border">
           <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
